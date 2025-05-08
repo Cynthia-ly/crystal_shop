@@ -35,7 +35,7 @@ A modern e-commerce platform for selling crystal products, built with a focus on
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/crystal-shop.git
+git clone https://github.com/Cynthia-ly/crystal-shop.git
 cd crystal-shop
 ```
 
