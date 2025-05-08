@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>CrystalEssence - Shopping Cart</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .app-container { max-width: 980px; margin-left: auto; margin-right: auto; padding-left: 22px; padding-right: 22px; }
+        .glassmorphism-nav { background-color: rgba(255, 255, 255, 0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0, 0, 0, 0.07); }
+    </style>
+</head>
+<body class="text-black">
+    <header class="glassmorphism-nav sticky top-0 z-50">
+        <nav class="app-container py-0 flex justify-between items-center h-14 md:h-[52px]">
+            <a href="index.html" class="text-xl font-semibold tracking-tight">CrystalEssence</a>
+            <div class="flex items-center space-x-5 md:space-x-7">
+                <a href="index.html" class="text-xs text-gray-700 hover:text-black transition-colors font-medium">Shop</a>
+                <a href="#about" class="text-xs text-gray-700 hover:text-black transition-colors font-medium">Our Story</a>
+                <a href="cart.html" class="text-gray-700 hover:text-black transition-colors relative block">
+                    <i class="fas fa-shopping-bag text-lg"></i>
+                    <span id="cart-count" class="absolute -top-1.5 -right-1.5 bg-blue-600 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center leading-none">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="app-container py-10 md:py-12">
+        <h1 class="text-3xl font-bold mb-8">Shopping Cart</h1>
+        
+        <div id="cart-items" class="space-y-4">
+            <!-- Cart items will be dynamically inserted here -->
+        </div>
+        
+        <div class="mt-8 p-6 bg-white rounded-lg shadow-sm">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-lg font-medium">Subtotal</span>
+                <span id="subtotal" class="text-2xl font-bold">¥0.00</span>
+            </div>
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-lg font-medium">Shipping</span>
+                <span id="shipping" class="text-lg">¥0.00</span>
+            </div>
+            <div class="flex justify-between items-center mb-6">
+                <span class="text-lg font-medium">Total</span>
+                <span id="total" class="text-2xl font-bold">¥0.00</span>
+            </div>
+            <button id="checkout-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg text-lg transition-colors duration-300">
+                Proceed to Checkout
+            </button>
+        </div>
+    </main>
+
+    <footer class="app-container border-t border-gray-200 mt-16 md:mt-24 py-8">
+        <div class="text-center md:flex md:justify-between md:items-center">
+            <p class="text-xs text-gray-500 mb-3 md:mb-0">Copyright © 2024 CrystalEssence Inc. All rights reserved.</p>
+            <div class="space-x-4 text-xs">
+                <a href="#" class="text-gray-500 hover:text-gray-700">Privacy Policy</a>
+                <a href="#" class="text-gray-500 hover:text-gray-700">Terms of Use</a>
+                <a href="#" class="text-gray-500 hover:text-gray-700">Sales Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        // 购物车功能
+        function updateCartDisplay() {
+            const cart = JSON.parse(localStorage.getItem('crystalShopCart')) || [];
+            const cartItemsContainer = document.getElementById('cart-items');
+            const subtotalElement = document.getElementById('subtotal');
+            const shippingElement = document.getElementById('shipping');
+            const totalElement = document.getElementById('total');
+            
+            // 清空购物车显示
+            cartItemsContainer.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-shopping-cart text-4xl text-gray-400 mb-4"></i>
+                        <p class="text-gray-500">Your cart is empty</p>
+                        <a href="index.html" class="inline-block mt-4 text-blue-600 hover:text-blue-700">Continue Shopping</a>
+                    </div>
+                `;
+                subtotalElement.textContent = '¥0.00';
+                shippingElement.textContent = '¥0.00';
+                totalElement.textContent = '¥0.00';
+                return;
+            }
+            
+            // 计算总价
+            let subtotal = 0;
+            
+            // 显示购物车商品
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'flex items-center p-4 bg-white rounded-lg shadow-sm';
+                cartItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded">
+                    <div class="ml-4 flex-grow">
+                        <h3 class="font-medium">${item.name}</h3>
+                        <p class="text-gray-600">¥${item.price.toFixed(2)}</p>
+                    </div>
+                    <div class="flex items-center">
+                        <button onclick="updateQuantity('${item.id}', ${item.quantity - 1})" class="px-2 py-1 border rounded-l">-</button>
+                        <span class="px-4 py-1 border-t border-b">${item.quantity}</span>
+                        <button onclick="updateQuantity('${item.id}', ${item.quantity + 1})" class="px-2 py-1 border rounded-r">+</button>
+                    </div>
+                    <div class="ml-4">
+                        <p class="font-medium">¥${itemTotal.toFixed(2)}</p>
+                        <button onclick="removeFromCart('${item.id}')" class="text-red-600 hover:text-red-700 text-sm">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(cartItem);
+            });
+            
+            // 更新价格显示
+            const shipping = subtotal > 0 ? 15 : 0;
+            const total = subtotal + shipping;
+            
+            subtotalElement.textContent = `¥${subtotal.toFixed(2)}`;
+            shippingElement.textContent = `¥${shipping.toFixed(2)}`;
+            totalElement.textContent = `¥${total.toFixed(2)}`;
+        }
+        
+        function updateQuantity(id, newQuantity) {
+            if (newQuantity < 1) return;
+            
+            const cart = JSON.parse(localStorage.getItem('crystalShopCart')) || [];
+            const itemIndex = cart.findIndex(item => item.id === id);
+            
+            if (itemIndex > -1) {
+                cart[itemIndex].quantity = newQuantity;
+                localStorage.setItem('crystalShopCart', JSON.stringify(cart));
+                updateCartDisplay();
+            }
+        }
+        
+        function removeFromCart(id) {
+            const cart = JSON.parse(localStorage.getItem('crystalShopCart')) || [];
+            const newCart = cart.filter(item => item.id !== id);
+            localStorage.setItem('crystalShopCart', JSON.stringify(newCart));
+            updateCartDisplay();
+        }
+        
+        // 初始化显示
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartDisplay();
+            
+            // 结账按钮事件
+            document.getElementById('checkout-btn').addEventListener('click', () => {
+                const cart = JSON.parse(localStorage.getItem('crystalShopCart')) || [];
+                if (cart.length === 0) {
+                    alert('Your cart is empty!');
+                    return;
+                }
+                // TODO: 实现结账功能
+                alert('Checkout functionality will be implemented soon!');
+            });
+        });
+    </script>
+</body>
+</html> 

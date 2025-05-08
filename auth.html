@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>CrystalEssence - Sign In / Sign Up</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .app-container { max-width: 980px; margin-left: auto; margin-right: auto; padding-left: 22px; padding-right: 22px; }
+        .glassmorphism-nav { background-color: rgba(255, 255, 255, 0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0, 0, 0, 0.07); }
+        .form-input { background-color: #fff; border: 1px solid #d2d2d7; border-radius: 8px; padding: 10px 12px; font-size: 17px; line-height: 1.29412; letter-spacing: -0.021em; color: #1d1d1f; width: 100%; }
+        .form-input:focus { border-color: #0071e3; box-shadow: 0 0 0 4px rgba(0,125,250,.3); outline: none; }
+    </style>
+</head>
+<body class="text-black">
+    <header class="glassmorphism-nav sticky top-0 z-50">
+        <nav class="app-container py-0 flex justify-between items-center h-14 md:h-[52px]">
+            <a href="index.html" class="text-xl font-semibold tracking-tight">CrystalEssence</a>
+            <div class="flex items-center space-x-5 md:space-x-7">
+                <a href="index.html" class="text-xs text-gray-700 hover:text-black transition-colors font-medium">Shop</a>
+                <a href="#about" class="text-xs text-gray-700 hover:text-black transition-colors font-medium">Our Story</a>
+                <a href="cart.html" class="text-gray-700 hover:text-black transition-colors relative block">
+                    <i class="fas fa-shopping-bag text-lg"></i>
+                    <span id="cart-count" class="absolute -top-1.5 -right-1.5 bg-blue-600 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center leading-none">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="app-container py-10 md:py-12">
+        <div class="max-w-md mx-auto">
+            <div class="bg-white rounded-lg shadow-sm p-8">
+                <div class="flex justify-between mb-8">
+                    <button id="signin-tab" class="text-lg font-medium text-blue-600 border-b-2 border-blue-600 pb-2">Sign In</button>
+                    <button id="signup-tab" class="text-lg font-medium text-gray-500 hover:text-gray-700">Sign Up</button>
+                </div>
+                
+                <!-- Sign In Form -->
+                <form id="signin-form" class="space-y-4">
+                    <div>
+                        <label for="signin-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" id="signin-email" class="form-input" required>
+                    </div>
+                    <div>
+                        <label for="signin-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <input type="password" id="signin-password" class="form-input" required>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="remember-me" class="h-4 w-4 text-blue-600 border-gray-300 rounded">
+                            <label for="remember-me" class="ml-2 block text-sm text-gray-700">Remember me</label>
+                        </div>
+                        <a href="#" class="text-sm text-blue-600 hover:text-blue-700">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg text-lg transition-colors duration-300">
+                        Sign In
+                    </button>
+                </form>
+                
+                <!-- Sign Up Form -->
+                <form id="signup-form" class="space-y-4 hidden">
+                    <div>
+                        <label for="signup-username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                        <input type="text" id="signup-username" class="form-input" required>
+                    </div>
+                    <div>
+                        <label for="signup-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" id="signup-email" class="form-input" required>
+                    </div>
+                    <div>
+                        <label for="signup-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <input type="password" id="signup-password" class="form-input" required>
+                    </div>
+                    <div>
+                        <label for="signup-confirm-password" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                        <input type="password" id="signup-confirm-password" class="form-input" required>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg text-lg transition-colors duration-300">
+                        Sign Up
+                    </button>
+                </form>
+                
+                <div class="mt-6">
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-2 bg-white text-gray-500">Or continue with</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 grid grid-cols-2 gap-3">
+                        <button class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            <i class="fab fa-google text-red-600 mr-2"></i>
+                            Google
+                        </button>
+                        <button class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            <i class="fab fa-facebook text-blue-600 mr-2"></i>
+                            Facebook
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="app-container border-t border-gray-200 mt-16 md:mt-24 py-8">
+        <div class="text-center md:flex md:justify-between md:items-center">
+            <p class="text-xs text-gray-500 mb-3 md:mb-0">Copyright © 2024 CrystalEssence Inc. All rights reserved.</p>
+            <div class="space-x-4 text-xs">
+                <a href="#" class="text-gray-500 hover:text-gray-700">Privacy Policy</a>
+                <a href="#" class="text-gray-500 hover:text-gray-700">Terms of Use</a>
+                <a href="#" class="text-gray-500 hover:text-gray-700">Sales Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const signinTab = document.getElementById('signin-tab');
+            const signupTab = document.getElementById('signup-tab');
+            const signinForm = document.getElementById('signin-form');
+            const signupForm = document.getElementById('signup-form');
+            
+            // 切换表单显示
+            signinTab.addEventListener('click', () => {
+                signinTab.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
+                signinTab.classList.remove('text-gray-500');
+                signupTab.classList.add('text-gray-500');
+                signupTab.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
+                signinForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+            });
+            
+            signupTab.addEventListener('click', () => {
+                signupTab.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
+                signupTab.classList.remove('text-gray-500');
+                signinTab.classList.add('text-gray-500');
+                signinTab.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
+                signupForm.classList.remove('hidden');
+                signinForm.classList.add('hidden');
+            });
+            
+            // 表单提交处理
+            signinForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('signin-email').value;
+                const password = document.getElementById('signin-password').value;
+                const rememberMe = document.getElementById('remember-me').checked;
+                
+                // TODO: 实现登录逻辑
+                console.log('Sign in:', { email, password, rememberMe });
+                alert('Sign in functionality will be implemented soon!');
+            });
+            
+            signupForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = document.getElementById('signup-username').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                const confirmPassword = document.getElementById('signup-confirm-password').value;
+                
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match!');
+                    return;
+                }
+                
+                // TODO: 实现注册逻辑
+                console.log('Sign up:', { username, email, password });
+                alert('Sign up functionality will be implemented soon!');
+            });
+        });
+    </script>
+</body>
+</html> 
